@@ -1,0 +1,17 @@
+[Unit]
+Description=Playfull Discord bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=playfull
+WorkingDirectory=/opt/playfull-bot
+EnvironmentFile=/opt/playfull-bot/.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

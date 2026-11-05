@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/
+.env
+config/config.json
+*.log
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
