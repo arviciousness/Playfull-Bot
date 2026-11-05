@@ -1,0 +1,310 @@
+{
+  "_comment": "Copy this file to config/config.json. Do not put a bot token in this file. The token lives only in .env. Keys that start with _ are notes and are ignored.",
+  "_contradictions": "See README section 'Playbook contradictions'. Defaults follow the UnbelievaBoat shop (50/90/130/170 and that shop's role rules). Switch presets with /set-preset.",
+
+  "guildId": "",
+  "databasePath": "data/playfull.db",
+
+  "channels": {
+    "_comment": "Use the channel name (emoji prefixes are ignored) or, better, the numeric channel ID. Staff commands only run in adminCommands. The playbook also mentions #cmds for currency commands; member commands are allowed everywhere unless you fill memberEconomy.",
+    "adminCommands": ["admin-cmds"],
+    "memberEconomy": [],
+    "auditLog": "PlayBits-vault",
+    "giveaways": "giveaways",
+    "events": "events",
+    "shop": "playbits-shop",
+    "chatEarn": ["general", "spanish", "japanese", "filipino", "russian"],
+    "gamingHubVoice": ["Gaming Hub"]
+  },
+
+  "roles": {
+    "_comment": "Role name or numeric role ID. The bot only grants these roles. Its own role must sit above every role it assigns.",
+    "verified": "verified",
+    "moderator": ["Moderator"],
+    "admin": ["Discord Management"],
+    "serverBooster": "Server Booster",
+    "trendHunter": "Trend Hunter",
+    "gameCreator": "Game Creator",
+    "partyLegend": "Party Legend",
+    "playmaker": "Playmaker",
+    "playfullPatron": "Playfull Patron",
+    "bronzeTicket": "Bronze Ticket Holder",
+    "silverTicket": "Silver Ticket Holder",
+    "goldTicket": "Gold Ticket Holder",
+    "platinumTicket": "Platinum Ticket Holder",
+    "diamondTicket": "Diamond Ticket Holder",
+    "giveawayAlerts": "Giveaway Alerts"
+  },
+
+  "economy": {
+    "_comment": "Starting balance is 5 and there is no cap. Balances are never wiped by the weekly reset. Bank is optional storage; the shop spends cash only. p!rob is not implemented.",
+    "currencyName": "PlayBits",
+    "startingBalance": 5,
+    "startingBucket": "cash",
+    "maxCash": null,
+    "maxBank": null,
+    "useBank": true
+  },
+
+  "chat": {
+    "enabled": true,
+    "amount": 1,
+    "cooldownSeconds": 60,
+    "requireVerified": true,
+    "minLength": 2,
+    "rejectDuplicates": true,
+    "duplicateWindowSeconds": 600,
+    "includeThreads": true,
+    "countMediaWithoutText": false,
+    "ignorePrefixes": ["p!"]
+  },
+
+  "audit": {
+    "_comment": "Every balance change is written to the database. logChatEarnings also posts each chat award to the vault channel. Turn it off if that channel is too noisy.",
+    "logChatEarnings": true
+  },
+
+  "moderation": {
+    "preventSelfReward": true
+  },
+
+  "activities": {
+    "trending": {
+      "label": "Trending Gameplay",
+      "reward": 10,
+      "roleKey": "trendHunter",
+      "expiresWeekly": true
+    },
+    "gameplay": {
+      "label": "Original Gameplay",
+      "reward": 20,
+      "roleKey": "gameCreator",
+      "expiresWeekly": true
+    },
+    "gamenight": {
+      "label": "Game Nights",
+      "reward": 25,
+      "roleKey": "partyLegend",
+      "expiresWeekly": true
+    },
+    "gaminghub": {
+      "label": "Gaming Hub",
+      "reward": 30,
+      "roleKey": "playmaker",
+      "expiresWeekly": true,
+      "minVoiceMinutes": 30
+    },
+    "purchase": {
+      "label": "Playfull Purchase",
+      "reward": 40,
+      "roleKey": "playfullPatron",
+      "expiresWeekly": false
+    }
+  },
+
+  "boost": {
+    "_comment": "Server boost grants the Patron role automatically. grantPlayBits 40 matches the purchase reward. Set grantPlayBits to 0 to grant the role only. countsAsPurchase true means a boost and a purchase share one reward per week.",
+    "autoGrantPatron": true,
+    "grantPlayBits": 40,
+    "countsAsPurchase": true
+  },
+
+  "voice": {
+    "qualifyMinutes": 30,
+    "ignoreDeafened": true,
+    "ignoreMuted": false,
+    "ignoreAfk": true,
+    "heartbeatSeconds": 60
+  },
+
+  "shop": {
+    "_comment": "activePreset is the starting preset. /set-preset changes it without editing this file. Diamond is disabled because the shop was never given a Diamond item. Its price and entries are placeholders, not playbook values.",
+    "activePreset": "standard",
+    "restrictToChannel": true,
+    "presets": {
+      "standard": {
+        "_comment": "UnbelievaBoat shop. Gold is Party Legend OR Playmaker. Platinum is Playfull Patron OR Server Booster. One purchase per tier per week, and tiers stack.",
+        "enforcePurchaseLimit": true,
+        "oneTierOnly": false,
+        "higherReplacesLower": false,
+        "refundReplacedTicket": false,
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "Bronze Ticket",
+            "price": 50,
+            "entries": 1,
+            "enabled": true,
+            "requiredRoleKeys": [],
+            "roleKey": "bronzeTicket"
+          },
+          {
+            "id": "silver",
+            "name": "Silver Ticket",
+            "price": 90,
+            "entries": 2,
+            "enabled": true,
+            "requiredRoleKeys": ["trendHunter", "gameCreator"],
+            "roleKey": "silverTicket"
+          },
+          {
+            "id": "gold",
+            "name": "Gold Ticket",
+            "price": 130,
+            "entries": 3,
+            "enabled": true,
+            "requiredRoleKeys": ["partyLegend", "playmaker"],
+            "roleKey": "goldTicket"
+          },
+          {
+            "id": "platinum",
+            "name": "Platinum Ticket",
+            "price": 170,
+            "entries": 4,
+            "enabled": true,
+            "requiredRoleKeys": ["playfullPatron", "serverBooster"],
+            "roleKey": "platinumTicket"
+          },
+          {
+            "id": "diamond",
+            "name": "Diamond Ticket",
+            "price": 210,
+            "entries": 5,
+            "enabled": false,
+            "_note": "Placeholder price and entries. The playbook never configured Diamond. Enable only after you choose a real price.",
+            "requiredRoleKeys": ["playfullPatron"],
+            "roleKey": "diamondTicket"
+          }
+        ]
+      },
+      "launch-week": {
+        "_comment": "Special Launch Week section: prices 10/30/50/100, every tier requires @verified, and a member may hold only one tier. Buying a higher tier replaces the lower one and does not refund it. The posted channel guides instead say 10/19/28/37; that is the posted-announcement preset.",
+        "enforcePurchaseLimit": true,
+        "oneTierOnly": true,
+        "higherReplacesLower": true,
+        "refundReplacedTicket": false,
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "Bronze Ticket",
+            "price": 10,
+            "entries": 1,
+            "enabled": true,
+            "requiredRoleKeys": ["verified"],
+            "roleKey": "bronzeTicket"
+          },
+          {
+            "id": "silver",
+            "name": "Silver Ticket",
+            "price": 30,
+            "entries": 2,
+            "enabled": true,
+            "requiredRoleKeys": ["verified"],
+            "roleKey": "silverTicket"
+          },
+          {
+            "id": "gold",
+            "name": "Gold Ticket",
+            "price": 50,
+            "entries": 3,
+            "enabled": true,
+            "requiredRoleKeys": ["verified"],
+            "roleKey": "goldTicket"
+          },
+          {
+            "id": "platinum",
+            "name": "Platinum Ticket",
+            "price": 100,
+            "entries": 4,
+            "enabled": true,
+            "requiredRoleKeys": ["verified"],
+            "roleKey": "platinumTicket"
+          },
+          {
+            "id": "diamond",
+            "name": "Diamond Ticket",
+            "price": 210,
+            "entries": 5,
+            "enabled": false,
+            "requiredRoleKeys": ["playfullPatron"],
+            "roleKey": "diamondTicket"
+          }
+        ]
+      },
+      "posted-announcement": {
+        "_comment": "Prices from the posted #giveaways and #playbits-shop guides (10/19/28/37). Those posts say tiers are open to @everyone, so role gates are empty here. Edit requiredRoleKeys if you want these prices with the normal role rules. Still one ticket per tier, and tiers stack.",
+        "enforcePurchaseLimit": true,
+        "oneTierOnly": false,
+        "higherReplacesLower": false,
+        "refundReplacedTicket": false,
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "Bronze Ticket",
+            "price": 10,
+            "entries": 1,
+            "enabled": true,
+            "requiredRoleKeys": [],
+            "roleKey": "bronzeTicket"
+          },
+          {
+            "id": "silver",
+            "name": "Silver Ticket",
+            "price": 19,
+            "entries": 2,
+            "enabled": true,
+            "requiredRoleKeys": [],
+            "roleKey": "silverTicket"
+          },
+          {
+            "id": "gold",
+            "name": "Gold Ticket",
+            "price": 28,
+            "entries": 3,
+            "enabled": true,
+            "requiredRoleKeys": [],
+            "roleKey": "goldTicket"
+          },
+          {
+            "id": "platinum",
+            "name": "Platinum Ticket",
+            "price": 37,
+            "entries": 4,
+            "enabled": true,
+            "requiredRoleKeys": [],
+            "roleKey": "platinumTicket"
+          },
+          {
+            "id": "diamond",
+            "name": "Diamond Ticket",
+            "price": 210,
+            "entries": 5,
+            "enabled": false,
+            "requiredRoleKeys": ["playfullPatron"],
+            "roleKey": "diamondTicket"
+          }
+        ]
+      }
+    }
+  },
+
+  "giveaway": {
+    "_comment": "Matches Giveaway Boat where the playbook gave a value: 7 days, color #007FFF, captcha on, stacked entries, private winner thread, giveaways channel. Giveaway Boat's Extra Entries toggle had no amounts written down, so only ticket weights are used. The winner thread message was TBD; the default below is a stand-in.",
+    "defaultDurationHours": 168,
+    "embedColor": "#007FFF",
+    "requireCaptcha": true,
+    "stackEntries": true,
+    "privateWinnerThread": true,
+    "thumbnailUrl": "",
+    "autoWeeklyReset": false,
+    "defaultWinnerMessage": "Congratulations {winner}! You won **{prize}**. A moderator will contact you here with your Steam key. If the game is region-locked, reply with your country."
+  },
+
+  "weeklyReset": {
+    "_comment": "Tickets and the four temporary activity roles are removed. Playfull Patron is never removed. PlayBits balances are never reset, even if resetBalances is changed to true.",
+    "expireTickets": true,
+    "resetBalances": false,
+    "rolesToRemove": ["trendHunter", "gameCreator", "partyLegend", "playmaker"],
+    "rolesNeverRemove": ["playfullPatron"]
+  }
+}
